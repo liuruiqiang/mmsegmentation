@@ -1,6 +1,6 @@
 # dataset settings
 dataset_type = 'REFUGEDataset'
-data_root = 'data/REFUGE'
+data_root = '/home/hci-p920-2/Ruiqiang/mmsegmentation/data/REFUGE'
 train_img_scale = (2056, 2124)
 val_img_scale = (1634, 1634)
 test_img_scale = (1634, 1634)
@@ -15,7 +15,7 @@ train_pipeline = [dict(type='LoadImageFromFile'),
     dict(type='RandomCrop', crop_size=crop_size, cat_max_ratio=0.75),
     dict(type='RandomFliplr', prob=0.2),
     
-    dict(type='RandomFlipPud', prob=0.2),
+    dict(type='RandomFlipud', prob=0.2),
     dict(type='RandomApply', 
         transforms=[dict(type='Rot90', degree_range=(1,3))],
     prob=0.3),
