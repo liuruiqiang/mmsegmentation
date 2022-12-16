@@ -1,7 +1,7 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import copy
 from typing import Dict, Sequence, Tuple, Union
-
+from PIL import Image
 import cv2
 import mmcv
 import numpy as np
@@ -122,9 +122,9 @@ class Rot90(BaseTransform):
         gt_segs = []
         # Align segmentation map to multiple of size divisor.
         for key in results.get('seg_fields', []):
-            gt_segs.apend(results[key])
+            gt_segs.append(results[key])
         imgs = [img]+gt_segs
-        roted_imgs = self.rot90(imgs)  
+        roted_imgs = self.rot90.augment_images(imgs)
         results['img'] = roted_imgs[0] 
         for i,key in enumerate(results.get('seg_fields', [])):
             results[key] = roted_imgs[i+1]
@@ -174,7 +174,7 @@ class RandomFliplr(BaseTransform):
         for key in results.get('seg_fields', []):
             gt_segs.append(results[key])
         imgs = [img] + gt_segs
-        flipped_imgs = self.fliplr(imgs)
+        flipped_imgs = self.fliplr.augment_images(imgs)
         results['img'] = flipped_imgs[0]
         for i, key in enumerate(results.get('seg_fields', [])):
             results[key] = flipped_imgs[i + 1]
@@ -223,7 +223,7 @@ class RandomFlipud(BaseTransform):
         for key in results.get('seg_fields', []):
             gt_segs.append(results[key])
         imgs = [img] + gt_segs
-        flipped_imgs = self.flipud(imgs)
+        flipped_imgs = self.flipud.augment_images(imgs)
         results['img'] = flipped_imgs[0]
         for i, key in enumerate(results.get('seg_fields', [])):
             results[key] = flipped_imgs[i + 1]
@@ -275,8 +275,9 @@ class ColorJitter(BaseTransform):
         """
         
         img = results['img']
+        img = Image.fromarray(np.uint8(img))
         aug_img = self.color_jitter(img)
-        results['img'] = aug_img
+        results['img'] = np.array(aug_img)
 
         return results
 
@@ -1434,3 +1435,4 @@ class GenerateEdge(BaseTransform):
         repr_str += f'edge_width={self.edge_width}, '
         repr_str += f'ignore_index={self.ignore_index})'
         return repr_str
+

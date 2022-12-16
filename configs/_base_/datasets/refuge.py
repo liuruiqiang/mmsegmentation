@@ -20,11 +20,13 @@ train_pipeline = [dict(type='LoadImageFromFile'),
         transforms=[dict(type='Rot90', degree_range=(1,3))],
     prob=0.3),
     dict(type='RGB2Gray', weights=(0.5, 0.5, 0.5)),
-    dict(type='RandomChoice', 
-        transforms=[dict(type='ColorJitter', brightness=0.2),
-        dict(type='ColorJitter', contrast=0.2),
-        dict(type='ColorJitter', saturation=0.2),
-        dict(type='ColorJitter', brightness=0.1, contrast=0.1, saturation=0.1, hue=0)])]
+    dict(type='PhotoMetricDistortion')]
+    # dict(type='RandomChoice',
+    #     transforms=[dict(type='ColorJitter', brightness=0.2),
+    #     dict(type='ColorJitter', contrast=0.2),
+    #     dict(type='ColorJitter', saturation=0.2),
+    #     dict(type='ColorJitter', brightness=0.1, contrast=0.1, saturation=0.1, hue=0)]),
+    # dict(type='ToTensor')]
     
 val_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -48,15 +50,12 @@ train_dataloader = dict(
     persistent_workers=True,
     sampler=dict(type='InfiniteSampler', shuffle=True),
     dataset=dict(
-        type='RepeatDataset',
-        times=40000,
-        dataset=dict(
             type=dataset_type,
             data_root=data_root,
             data_prefix=dict(
                 img_path='images/training',
                 seg_map_path='annotations/training'),
-            pipeline=train_pipeline)))
+            pipeline=train_pipeline))
 val_dataloader = dict(
     batch_size=1,
     num_workers=4,
@@ -84,3 +83,4 @@ test_dataloader = dict(
 
 val_evaluator = dict(type='IoUMetric', iou_metrics=['mDice'])
 test_evaluator = val_evaluator
+
