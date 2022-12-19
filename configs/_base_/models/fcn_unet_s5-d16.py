@@ -36,7 +36,7 @@ model = dict(
         num_convs=1,
         concat_input=False,
         dropout_ratio=0.1,
-        num_classes=2,
+        num_classes=3,
         norm_cfg=norm_cfg,
         align_corners=False,
         loss_decode=dict(
@@ -49,7 +49,7 @@ model = dict(
         num_convs=1,
         concat_input=False,
         dropout_ratio=0.1,
-        num_classes=2,
+        num_classes=3,
         norm_cfg=norm_cfg,
         align_corners=False,
         loss_decode=dict(
@@ -57,3 +57,4 @@ model = dict(
     # model training and testing settings
     train_cfg=dict(),
     test_cfg=dict(mode='slide', crop_size=256, stride=170))
+
