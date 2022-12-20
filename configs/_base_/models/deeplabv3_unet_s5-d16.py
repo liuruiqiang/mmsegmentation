@@ -37,6 +37,7 @@ model = dict(
         dropout_ratio=0.1,
         num_classes=2,
         norm_cfg=norm_cfg,
+        ignore_index=255,
         align_corners=False,
         loss_decode=dict(
             type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0)),
@@ -49,6 +50,7 @@ model = dict(
         concat_input=False,
         dropout_ratio=0.1,
         num_classes=2,
+        ignore_index=255,
         norm_cfg=norm_cfg,
         align_corners=False,
         loss_decode=dict(
